@@ -1,5 +1,5 @@
 import argparse
-import os
+from pathlib import Path
 
 import numpy as np
 from PIL import Image
@@ -95,13 +95,14 @@ def main():
         "--add_disturbance", action="store_true", help="揺らぎを加える場合に指定"
     )
     args = parser.parse_args()
-
+    input_dir = Path(args.input_dir)
+    output_dir = Path(args.output_dir)
     # 出力ディレクトリが存在しない場合は作成
-    if not os.path.exists(args.output_dir):
-        os.makedirs(args.output_dir)
+    if not output_dir.exists():
+        output_dir.mkdir(parents=True, exist_ok=True)
 
     # 透過PNGファイルのリストを取得
-    png_files = [f for f in os.listdir(args.input_dir) if f.lower().endswith(".png")]
+    png_files = [f for f in input_dir.iterdir() if f.lower().endswith(".png")]
 
     # 透過PNGの数
     num_pngs = len(png_files)
@@ -123,7 +124,7 @@ def main():
     for i in range(total_outputs):
         # 透過PNGのインデックス（循環させる）
         png_index = i % num_pngs
-        png_path = os.path.join(args.input_dir, png_files[png_index])
+        png_path = input_dir / png_files[png_index]
 
         # 色のインデックス
         color_index = i
@@ -131,7 +132,7 @@ def main():
 
         # 出力ファイル名の形式を設定
         output_filename = f"{str(i + 1).zfill(args.digits)}.png"
-        output_path = os.path.join(args.output_dir, output_filename)
+        output_path = output_dir / output_filename
 
         # 背景色を適用
         apply_color_to_transparent_png(png_path, color, output_path)
