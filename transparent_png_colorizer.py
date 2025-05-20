@@ -85,10 +85,8 @@ def apply_color_to_transparent_png(png_path, color, output_path):
 
 def main():
     parser = argparse.ArgumentParser(description="透過PNGに背景色を適用するプログラム")
-    parser.add_argument(
-        "--input_dir", required=True, help="透過PNGファイルのディレクトリ"
-    )
-    parser.add_argument("--output_dir", required=True, help="出力ディレクトリ")
+    parser.add_argument("input_dir", help="透過PNGファイルのディレクトリ")
+    parser.add_argument("output_dir", help="出力ディレクトリ")
     parser.add_argument("--num_colors", type=int, required=True, help="生成する色の数")
     parser.add_argument(
         "--digits", type=int, default=4, help="ファイル名の連番の桁数（デフォルト: 4）"
