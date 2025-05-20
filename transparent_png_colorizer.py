@@ -94,7 +94,7 @@ def main():
         "--digits", type=int, default=4, help="ファイル名の連番の桁数（デフォルト: 4）"
     )
     parser.add_argument(
-        "--no_disturbance", action="store_true", help="揺らぎを加えない場合に指定"
+        "--add_disturbance", action="store_true", help="揺らぎを加える場合に指定"
     )
     args = parser.parse_args()
 
@@ -113,10 +113,10 @@ def main():
         return
 
     # ユニークな色を生成（揺らぎオプションを渡す）
-    use_disturbance = not args.no_disturbance
+    use_disturbance = args.add_disturbance
     colors = generate_unique_colors(args.num_colors, use_disturbance)
 
-    print(f"揺らぎ: {'無効' if args.no_disturbance else '有効'}")
+    print(f"揺らぎ: {'有効' if args.add_disturbance else '無効'}")
 
     # 生成する総数
     total_outputs = args.num_colors
